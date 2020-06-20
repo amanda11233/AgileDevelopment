@@ -38,3 +38,6 @@ let checkUserToken = (req, res, next) => {
           });
     }
 }
+module.exports = {
+    checkUserToken : checkUserToken
+}
