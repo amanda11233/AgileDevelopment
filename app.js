@@ -12,7 +12,13 @@ app.use(bodyParser.urlencoded({
 
 app.use("/public", express.static(__dirname + '/public'));
 
+//Authentication Route
 app.use('/api/auth', require('./routes/auth'));
+
+//User Route
+app.use('/api', require('./routes/user'));
+app.use('/api', require('./routes/product'));
+app.use('/api', require('./routes/category'));
 
 app.use(function(err, req, res, next){
     res.status(422).send({error: err.message});

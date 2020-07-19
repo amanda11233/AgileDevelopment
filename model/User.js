@@ -12,11 +12,13 @@ const UserSchema = new Schema({
     },
     location : {
         type : String,
-        required : [true, "location is required"]
+      
     },
     phone : {
         type : String,
-        required : [true, "phone number is required"]
+    },
+    type : {
+        type : String,
     },
     email : {
         type : String,
