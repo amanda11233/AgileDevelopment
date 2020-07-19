@@ -44,6 +44,7 @@ class AuthController{
                 success : true,
                 message : "Authentication successful",
                 token : token,
+                _id : user._id
              
                 
             })
@@ -96,6 +97,7 @@ class AuthController{
                     success : false,
                     message: 'Account Already Exists',
                     token : token,
+                    _id : userAvailable._id
                 });
 
             }else{
@@ -124,7 +126,8 @@ class AuthController{
                        return res.status(200).json({
                            success : true,
                            message : 'Authentication successful',
-                           token : token
+                           token : token,
+                           _id : user._id
                        })
                     })
             }
@@ -138,7 +141,7 @@ class AuthController{
        
  
         const accountSid = 'AC2362f51eb9cad154bddb22c89f17965b';
-        const authToken = 'be0d4f53d2f9659258aa63fa2f0bfec7';
+        const authToken = '954fc0c8b1764756d5a8b7e671cf55ce';
         const client = require('twilio')(accountSid, authToken);
 
         client.verify.services.create({friendlyName: 'MeroPasal', codeLength : '4'})
@@ -166,7 +169,7 @@ class AuthController{
     verifyCode(req, res){
 
         const accountSid = 'AC2362f51eb9cad154bddb22c89f17965b';
-        const authToken = 'be0d4f53d2f9659258aa63fa2f0bfec7';
+        const authToken = '954fc0c8b1764756d5a8b7e671cf55ce';
         const client = require('twilio')(accountSid, authToken);
 
         

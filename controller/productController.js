@@ -102,6 +102,22 @@ class ProductController{
             })
     }
 
+    getLatestProducts(req, res){
+  
+            product.find().sort('-createdAt').populate("category_id").exec(function(err, products){
+                if(err) return res.status(500).send(err);
+            
+                return res.json({
+                    success : true,
+                    message: "Product Added",
+                    products : products
+                });
+            })
+        
+        
+      
+    }
+
     getProductById(req, res){
 
     }
