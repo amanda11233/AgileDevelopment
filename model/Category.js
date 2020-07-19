@@ -6,6 +6,9 @@ const CategorySchema = new Schema({
     category_name : {
         type : String,
         required : [true, "Category Name is required!"]
+    },
+    image : {
+        type : String
     }
 });
 
