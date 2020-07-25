@@ -28,6 +28,11 @@ const ProductSchema = new Schema({
         type : String
     },
     
+    discount : {
+        type : Schema.Types.ObjectId,
+        ref : 'discount'
+    }
+    
 }, { timestamps: true });
 
 const Product = mongoose.model("product", ProductSchema);

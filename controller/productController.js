@@ -1,4 +1,6 @@
 const product = require("../model/Product");
+const rating = require('../model/Rating');
+ 
 const fs = require('fs');
 
 
@@ -90,32 +92,97 @@ class ProductController{
         
     } 
 
-    getProducts(req, res){
-            product.find().populate("category_id").exec(function(err, products){
-                if(err) return res.status(500).send(err);
+    getExclusiveProducts(req, res){
+
+        product.aggregate([      {
+            $match : {discount : {"$exists": true, 
+            "$ne": null 
+} }
+        },   {
+        $lookup : {
+            from : "discounts",
+            localField : "discount",
+            foreignField : "_id",
+            as : "discountvalue",
             
-                return res.json({
-                    success : true,
-                    message: "Product Added",
-                    products : products
-                });
-            })
+        },
+    },
+        ], function(err, products){
+            if(err) return res.status(500).send(err);
+        
+               
+        
+            return res.json({
+                success : true,
+                message: "Products",
+                products : products
+            });
+        }).limit(15);
+        
+    }
+
+    getProducts(req, res){
+     
+        product.find(function(err, products){
+            if(err) return res.status(500).send(err);
+        
+            return res.json({
+                success : true,
+                message: "Products",
+                products : products
+            });
+        })
+    
     }
 
     getLatestProducts(req, res){
   
-            product.find().sort('-createdAt').populate("category_id").exec(function(err, products){
-                if(err) return res.status(500).send(err);
+        
+         
+            product.aggregate([  {
+                $lookup : {
+                    from : "ratings",
+                    localField : "_id",
+                    foreignField : "product",
+                    as : "ratings",
+                    
+                }
+            },
             
-                return res.json({
-                    success : true,
-                    message: "Product Added",
-                    products : products
-                });
-            })
-        
-        
-      
+            { 
+                $unwind : { 
+                    path : '$ratings', 
+                    preserveNullAndEmptyArrays : true 
+                } 
+            },
+            {
+                $group : {
+                    _id : '$_id',
+                    
+                    avgratings : {
+                    
+                            '$avg': { '$ifNull' : ['$ratings.ratings', 0]},
+                       
+                    }
+                }
+            } ,{
+                $project : {
+                    
+                        avgRatings : '$avgratings'
+                }
+            }
+        ], function(err, products){
+                    if(err) return res.status(500).send(err);
+                
+                  product.populate(products , [{"path" : "_id"}] , function(err, results){
+                    if(err) return res.status(500).send(err);
+                    return res.json({
+                        success : true,
+                        message: "Product Added",
+                        products : results
+                    });
+                  })
+                }).sort('-createdAt')
     }
 
     getProductById(req, res){

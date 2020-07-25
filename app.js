@@ -19,6 +19,8 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/user'));
 app.use('/api', require('./routes/product'));
 app.use('/api', require('./routes/category'));
+app.use('/api', require('./routes/discount'));
+app.use('/api', require('./routes/ratings'));
 
 app.use(function(err, req, res, next){
     res.status(422).send({error: err.message});
