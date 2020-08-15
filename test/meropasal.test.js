@@ -132,6 +132,6 @@ describe(' Testing of Rating Schema', () => {
 
 // wishlist deletion
 it('Testing of wish Deletion', async() => {
-    const status = await ModelCategory.deleteOne({ "_id": "5f339054b62c465cf8d13b3b" });
+    const status = await ModelCategory.deleteOne({ "_id": "5f33a4ee7894a738202ca1cc" });
     expect(status.ok).toBe(1);
 });
